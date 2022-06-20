@@ -2,8 +2,7 @@ import { createChart } from 'lightweight-charts';
 import { useEffect, useRef } from 'react';
 
 export function Chart(props) {
-
-
+    
     const chartContainerRef = useRef();
 
     useEffect(
@@ -19,9 +18,9 @@ export function Chart(props) {
                 height: 400,
                 layout: {
                     background: {
-                        color: 'white'
+                        color: 'transparent'
                     },
-                    textColor: 'black'
+                    textColor: 'white'
                 }
             });
             chart.timeScale().fitContent();
@@ -29,18 +28,23 @@ export function Chart(props) {
             const newSeries = chart.addAreaSeries();
             newSeries.setData(data);
             newSeries.applyOptions({
-                topFillColor2: 'white',
-                topLineColor: 'white',
-                topColor: 'white',
-                bottomColor: 'white',
-                lineColor: 'black',
-                title: 'puki',
-                baseLineColor: 'white'
+                topColor: 'transparent',
+                grid: {
+                    horzLines: {
+                        visible: false
+                    },
+                    vertLines: {
+                        visible: false
+                    },
+                },
+                lineColor: 'rgb(160,117,237)',
+                title: 'Price',
+
+                baseLineColor: 'black'
             })
             window.addEventListener('resize', handleResize);
             return () => {
                 window.removeEventListener('resize', handleResize);
-
                 chart.remove();
             };
         },
@@ -48,11 +52,11 @@ export function Chart(props) {
 
 
     return (
-        <div className="stats">
-            <h1>stats</h1>
+        <section className="chart">
             <div
+                className='graph'
                 ref={chartContainerRef}
             />
-        </div>
+        </section>
     )
 }

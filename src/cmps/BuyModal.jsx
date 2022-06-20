@@ -1,87 +1,97 @@
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadCoinMarketData, loadCoinData } from '../store/actions/cryptoActions'
+import { updateUser } from '../store/actions/userActions'
 import { userService } from '../srvices/userService'
-import { cryptoService } from '../srvices/cryptoService'
 
+export const BuyModal = (props) => {
 
-export class BuyModal extends Component {
+    // TODO make coins as object and then map it and send as a props
+    const [coin, setCoin] = useState(props.coin)
+    const [qty, setQty] = useState(0)
+    const [price, setPrice] = useState(0)
 
-    state = {
-        user: null,
-        coin: this.props.coin,
-        coinPrice: null,
-        price: 0,
-        amount: 0,
+    useEffect(() => {
+        dispatch(loadCoinData(coin))
+        calculateQty(price)
+        // eslint-disable-next-line
+    }, [coin])
+
+    const { coinData } = useSelector(state => state.cryptoModule)
+    const dispatch = useDispatch()
+
+    const handleChange = ({ target }) => {
+        setCoin(target.value)
     }
 
-    componentDidMount() {
-        this.getUser()
-        this.getCoinPrice()
+    const changePrice = ({ target }) => {
+        calculateQty(target.value)
+        setPrice(target.value)
     }
 
-    getCoinPrice = async (coin) => {
-        if (!coin) coin = this.props.coin
-        const coinData = await cryptoService.getCoinData(coin)
-        let coinPrice = coinData.market_data.current_price.usd
-        this.setState({ coinPrice })
+    const calculateQty = (price) => {
+        const qty = +price / coinData.coinPrice
+        setQty(qty)
     }
 
-    getUser() {
-        const user = userService.getUser()
-        this.setState({ user })
+    const close = () => {
+        props.onHandleModal(false, '');
     }
 
-    changePrice = ({ target }) => {
-        const price = target.value
-        this.setState({ price })
-        this.calculateAmount(price)
+    const buy = () => {
+        if (!price || +price > props.user.coins
+            ) return console.log('cant buy');
+        console.log('buying');
+
+        //TODO Should i place it in the actions or make a custom hook?
+
+        const asset = userService.makeAsset(coin, price, qty, coinData.coinPrice)
+        const transaction = userService.makeTransaction(props.transactionType, coin, price, qty)
+
+        const user = JSON.parse(JSON.stringify(props.user))
+        user.transactions = [...user.transactions, transaction]
+        user.assets = [...user.assets, asset]
+        user.coins -= +price
+        dispatch(updateUser(user))
+
     }
 
-    calculateAmount = (price) => {
-        const amount = +price / this.state.coinPrice
-        this.setState({ amount })
+    const sell = () => {
+        console.log('sellng');
     }
 
-    changeCoin = ({ target }) => {
-        this.setState({ coin: target.value })
-        this.getCoinPrice(target.value)
+
+
+    if (!coinData) return <div>Loading...</div>
+    let button
+    if (props.transactionType === 'buy') {
+        button = <button onClick={buy}>Buy</button>
+    } else {
+        button = <button onClick={sell}>Sell</button>
     }
 
-    close = () => {
-        this.props.onHandleModal(false);
-    }
-
-    buy = () => {
-        console.log('buyin');
-        userService.updateUser(this.state.coin, this.state.price, this.state.amount, this.state.coinPrice)
-    }
-
-    render() {
-        const { user, coinPrice, coin, price, amount } = this.state
-        if (!user) return
-        return (
-            <section className="buy-modal">
-                <div>
-                    <h1>Buy-Modal!</h1>
-                    <button onClick={this.close}>X</button>
-                    <p>Hello {user.name}</p>
-                    <p>Your Balance {user.coins}$</p>
-                    <p>{coin} {coinPrice}$</p>
-                    <select id="coins" onChange={this.changeCoin} value={coin}>
-                        <option value="bitcoin">Bitcoin</option>
-                        <option value="ethereum">Ethereum</option>
-                        <option value="cardano">Cardano</option>
-                        <option value="polkadot">Polkadot</option>
-                        <option value="litecoin">Litecoin</option>
-                        <option value="dogecoin">Dogecoin</option>
-                        <option value="tether">Tether</option>
-                    </select >
-                    <label>Price in USD</label>
-                    <input type="number" placeholder={price} min={0} onChange={this.changePrice} value={price} />
-                    <button onClick={this.buy}>Buy</button>
-                    <p>{price}</p>
-                    <p>amount {amount}</p>
-                </div>
-            </section>
-        )
-    }
+    return (
+        <section className="buy-modal">
+            <div>
+                <h1>Buy-Modal!</h1>
+                <button onClick={close}>X</button>
+                <p>Hello {props.user.name}</p>
+                <p>Your Balance {props.user.coins}$</p>
+                <p>{coin} {coinData.coinPrice}$</p>
+                <select id="coins" onChange={handleChange} value={coin}>
+                    <option value="bitcoin">Bitcoin</option>
+                    <option value="ethereum">Ethereum</option>
+                    <option value="cardano">Cardano</option>
+                    <option value="polkadot">Polkadot</option>
+                    <option value="litecoin">Litecoin</option>
+                    <option value="dogecoin">Dogecoin</option>
+                </select >
+                <label>Price in USD</label>
+                <input type="number" placeholder={price} min={0} onChange={changePrice} value={price} />
+                {button}
+                <p>{price}</p>
+                <p>qty {qty}</p>
+            </div>
+        </section>
+    )
 }
