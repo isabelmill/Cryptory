@@ -1,146 +1,510 @@
 .stats {
+    background-color: #1B1F24;
+    min-height: 100vh;
+    color: #d0d1d4;
+    padding: 100px 0 0 0;
     display: flex;
-    width: calc(100vw - 190px);
-    justify-content: space-between;
+    flex-direction: column;
 
     .stats-info {
         display: flex;
-        flex-direction: column;
-        height: 100vh;
-        width: 100%;
-        background-color: #16161A;
-        color: white;
+        justify-content: space-around;
 
-        .header {
-            font-size: 20px;
-            padding-left: 55px;
-            padding-top: 15px;
-        }
-
-        .info {
-            padding-top: 59px;
-            padding-left: 55px;
-            font-size: 18px;
+        .stats-chart-user {
             display: flex;
-            justify-content: space-between;
-            padding-right: 55px;
-            align-items: center;
+            flex-direction: column;
+            gap: 8px;
+            width: 800px;
 
-            .info-balance {
+            .user-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                padding: 0 20px;
+
                 .user-balance {
                     display: flex;
-                    gap: 12px;
-                    align-items: center;
-                    margin-top: 8px;
-                    font-size: 23px;
-                    
+                    flex-direction: column;
+                    gap: 8px;
+
                     p {
-                        background-color: rgb(160,117,237);
-                        font-size: 20px;
-                        padding: 3px;
+                        font-size: 18px;
+                    }
+
+                    .user-coins {
+                        display: flex;
+                        gap: 12px;
+                        align-items: center;
+                        font-size: 22px;
+
+                        p {
+                            background-color: rgb(18, 20, 24);
+                            padding: 5px;
+                            border-radius: 5px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            cursor: default;
+                        }
+                    }
+                }
+
+                .info-btns {
+                    display: flex;
+                    gap: 8px;
+
+                    button {
+                        outline: none;
+                        border: none;
                         border-radius: 3px;
-                        cursor: default;
+                        padding: 8px;
+                        font-weight: 600;
+                        font-size: 14px;
+                        color: white;
+
+                    }
+
+                    .sell {
+                        background-color: rgb(227, 74, 74);
+                    }
+
+                    .buy {
+                        background-color: rgb(79, 175, 79);
+                    }
+
+                    .transfer {
+                        background-color: rgb(81, 130, 198);
                     }
                 }
             }
 
-            .info-btns {
-                display: flex;
-                gap: 8px;
+            .stats-chart {
 
-                .sell {
-                    background-color: rgb(207, 71, 71);
-                }
-
-                .buy {
-                    background-color: rgb(75, 107, 223);
-                }
-
-                button {
+                .chart-info {
                     padding: 8px;
-                    font-size: 18px;
-                    color: white;
-                    border-radius: 3px;
-                }
-            }
+                    width: 100%;
+                    background-color: rgb(18, 20, 24);
+                    border-radius: 5px;
+                    margin-bottom: 25px;
+                    box-shadow: -1px 8px 15px 2px rgb(0 0 0 / 72%);
 
+                    .coins {
+                        display: flex;
+                        justify-content: space-between;
+                        padding-bottom: 25px;
+                        align-items: center;
+                        padding: 12px;
 
-        }
+                        .select {
+                            z-index: 3;
+                            color: rgb(18, 20, 24);
+                        }
 
-        .chart-info {
-            // padding-top: 75px;
-            border-radius: 5px;
-            width: 100%;
-            margin-top: 50px;
-            background-color: #2b2b2c;
-            display: flex;
-            flex-direction: column;
+                        .coin-info {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 10px;
 
-            .coins {
-                justify-content: space-between;
-                display: flex;
-                padding: 15px;
-                padding-right: 60px;
-
-                select {
-                    width: 200px;
-                    height: 30px;
-                    cursor: pointer;
-                    background-color: white;
-                    outline: none;
-                    border: none;
-                    box-shadow: 0 2px 0 white;
-                    border-radius: 2px;
-                    font-size: 16px;
-                    text-align: center;
-
-                    slot {
-                        option {
-                            &:hover {
-                                background-color: #A5B5EF !important;
+                            h2 {
+                                font-weight: 600;
+                                font-size: 22px;
                             }
 
+                            .coin-img {
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+
+                                h1 {
+                                    font-weight: 600;
+                                    // text-transform: uppercase;
+                                    font-size: 19px;
+                                }
+                            }
                         }
                     }
 
                 }
+            }
+        }
 
-                .coin-info {
-                    align-items: center;
+        .coin-data {
+
+            .stats-coin-info {
+                display: flex;
+                flex-direction: column;
+                background-color: #121418;
+                border-radius: 5px;
+                padding: 20px;
+                box-shadow: -1px 8px 15px 2px rgb(0 0 0 / 72%);
+                margin-top: 90px;
+                max-width: 378px;
+
+
+                .stats-header {
                     display: flex;
+                    align-items: center;
+                    font-size: 18px;
                     gap: 8px;
-                    // color: rgb(49,65,126);
-                    color: white;
+                    margin-bottom: 20px;
+                }
+
+                .stats-body {
+                    font-size: 16px;
+                    font-weight: 600;
+
+                    .stat {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 8px;
+                        padding: 8px;
+                        border-bottom: 1px solid #6b6b6b;
+                        gap: 40px;
+                    }
+                }
+            }
+        }
+    }
+
+    .stats-news {
+        display: flex;
+        justify-content: space-around;
+        padding: 30px 0 30px 0;
+        flex-direction: column;
+
+        h1 {
+            margin: 0 0 30px 240px;
+            font-size: 35px;
+        }
+
+        .news {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            gap: 30px;
 
 
-                    h6 {
-                        font-size: 16px;
-                        text-transform: uppercase;
+
+            .first-article {
+                display: flex;
+                max-width: 700px;
+                // gap: 20px;
+                align-items: center;
+                flex-direction: column;
+                // background-color: #121418;
+                border-radius: 5px;
+                padding: 15px 20px 15px 20px;
+                transition: 0.2s;
+                border: 2px solid rgb(18, 20, 24);
+                height: min-content;
+
+                &:hover {
+                    background-color: #21242a;
+                    box-shadow: -1px 8px 15px 2px rgb(0 0 0 / 72%);
+
+                }
+
+                .info {
+                    h1 {
+                        font-size: 25px;
+                        margin: 12px 0 12px 0;
+                        font-weight: 600;
+                        max-width: 500px;
                     }
 
                     p {
-                        background-color: rgb(160,117,237);
-                        padding: 3px;
-                        border-radius: 3px;
-                        cursor: default;
-                        color: white;
+                        font-size: 14px;
+                        margin-bottom: 15px;
+                        max-width: 500px;
+                    }
+
+                    .footer {
+                        width: 100%;
+                        display: flex;
+                        // align-items: center;
+                        justify-content: space-between;
+                        margin-bottom: 12px;
+                    }
+                }
+
+                .img {
+                    border-radius: 5px;
+                    object-fit: contain;
+                    max-width: 350px;
+                    max-height: 250px;
+                    margin: auto;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
                     }
                 }
             }
 
-            .chart {
-                .graph {
-                    width: 100%;
+            .other-articles {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+
+                .article a {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 800px;
+                    min-height: 150px;
+                    border: 2px solid rgb(18, 20, 24);
+                    display: flex;
                     border-radius: 5px;
+                    gap: 30px;
+                    padding: 15px 20px 15px 20px;
+                    transition: 0.2s;
+
+                    &:hover {
+                        background-color: #21242a;
+                        box-shadow: -1px 8px 15px 2px rgb(0 0 0 / 72%);
+
+                    }
+
+                    .info {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        gap: 40px;
+
+                        h1 {
+                            font-size: 20px;
+                            max-width: 500px;
+                            margin: 0;
+                        }
+
+                        p {
+                            font-size: 14px;
+                            margin-bottom: 15px;
+                            max-width: 600px;
+                        }
+
+                        .footer {
+                            width: 100%;
+                            display: flex;
+                            // align-items: center;
+                            justify-content: space-between;
+                            // margin-bottom: 12px;
+                        }
+                    }
+
+                    .img {
+                        border-radius: 5px;
+                        object-fit: contain;
+                        max-width: 200px;
+                        // max-height: 150px;
+                        margin: auto;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.article {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buy-modal {
+    position: fixed;
+    z-index: 15;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+
+    .content {
+        background-color: #fefefe;
+        // background-color: #121418;
+        color: #252627;
+        margin: auto;
+        padding: 0 25px 25px 25px;
+        border: 1px solid #888;
+        width: min-content;
+
+        .header {
+            display: flex;
+            position: relative;
+            justify-content: center;
+            padding-top: 25px;
+
+            h1 {
+                // text-align: center;
+                font-size: 20px;
+                font-weight: 600;
+                text-transform: capitalize;
+            }
+
+            .close {
+                position: absolute;
+                top: 3px;
+                right: -20px;
+                border: none;
+                border-radius: 50%;
+                width: 34px;
+                height: 34px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: 0.3s;
+
+                &:hover {
+                    background-color: #e4e4e4;
+
+                }
+
+                svg {
+                    opacity: 0.7;
+                    padding: 2px;
                 }
             }
         }
 
-    }
+        .coin-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
 
-    .stats-transactions {
-        width: 190px;
-        background-color: #16161A;
+            p {
+                font-weight: 600;
+                text-transform: capitalize;
+                font-size: 18px;
+            }
 
+            .coin {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+        }
+
+        .buy-info {
+            display: flex;
+            gap: 15px;
+
+            .shares {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 5px;
+
+                label {
+                    font-size: 12px;
+                    margin-bottom: 4px;
+                    font-weight: 600;
+                    color: #4a4a4a;
+                }
+
+                input {
+                    border: none;
+                    border-radius: 5px;
+                    padding: 8px;
+                    background-color: #F0F0F0;
+                    color: #4a4a4a;
+                    text-align: center;
+                    font-weight: 600;
+
+                    &:focus {
+                        outline: none;
+
+                    }
+                }
+
+                p{
+                    font-size: 12px;
+                    visibility: hidden;
+                    margin: 0;
+                }
+            }
+        }
+
+        h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a4a4a;
+            text-align: center;
+        }
+
+        .submit {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+
+
+            .buy {
+                outline: none;
+                border: none;
+                border-radius: 3px;
+                padding: 5px 16px;
+
+                font-weight: 600;
+                font-size: 14px;
+                color: white;
+                background-color: #63cd63;
+                transition: 0.3s;
+
+                &:hover {
+                    background-color: #70e270;
+                }
+            }
+
+            .sell {
+                padding: 5px 16px;
+                border-radius: 5px;
+                border: none;
+                font-weight: 600;
+                font-size: 16px;
+                background-color: rgb(227, 74, 74);
+                color: white;
+                transition: 0.3s;
+
+                &:hover {
+                    background-color: rgb(238, 98, 98);
+                }
+            }
+
+            .transfer {
+                padding: 5px 16px;
+                border-radius: 5px;
+                border: none;
+                font-weight: 600;
+                font-size: 16px;
+                background-color: rgb(81,130,198);
+                color: white;
+                transition: 0.3s;
+
+                &:hover {
+                    background-color: rgb(94, 150, 227);
+                }
+            }
+        }
     }
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; 
 }

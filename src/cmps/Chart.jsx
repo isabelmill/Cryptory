@@ -2,9 +2,9 @@ import { createChart } from 'lightweight-charts';
 import { useEffect, useRef } from 'react';
 
 export function Chart(props) {
-    
-    const chartContainerRef = useRef();
 
+    const chartContainerRef = useRef();
+    // const height = window.innerHeight - 340
     useEffect(
         () => {
             const handleResize = () => {
@@ -15,7 +15,7 @@ export function Chart(props) {
 
             const chart = createChart(chartContainerRef.current, {
                 width: chartContainerRef.current.clientWidth,
-                height: 400,
+                height: window.innerHeight - 340,
                 layout: {
                     background: {
                         color: 'transparent'
@@ -29,14 +29,7 @@ export function Chart(props) {
             newSeries.setData(data);
             newSeries.applyOptions({
                 topColor: 'transparent',
-                grid: {
-                    horzLines: {
-                        visible: false
-                    },
-                    vertLines: {
-                        visible: false
-                    },
-                },
+                bottomColor: '#A9BEFD',
                 lineColor: 'rgb(160,117,237)',
                 title: 'Price',
 

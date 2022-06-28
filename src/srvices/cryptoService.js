@@ -8,6 +8,7 @@ let axios = Axios.create({
 export const cryptoService = {
     getMarketData,
     getCoinData,
+    getCoinMarketPrice,
 }
 
 async function getMarketData(coin = 'bitcoin') {
@@ -30,12 +31,53 @@ async function getCoinData(coin = 'bitcoin') {
     try {
         const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${coin}?tickers=true&market_data=true&community_data=true&developer_data=false&sparkline=false
         `)
+        const newsData = await getCryptoNews(coin)
+        newsData.articles.length = 4
         let coinData = {
             id: res.data.id,
+            symbol: res.data.symbol,
+            rank: res.data.market_cap_rank,
             coinPrice: res.data.market_data.current_price.usd,
-            coinImage: res.data.image.thumb
+            coinImage: res.data.image.thumb,
+            markerCap: res.data.market_data.market_cap.usd,
+            high24h: res.data.market_data.high_24h.usd,
+            low24h: res.data.market_data.low_24h.usd,
+            priceChange24: res.data.market_data.price_change_24h_in_currency.usd,
+            priceChange24percent: res.data.market_data.price_change_percentage_24h_in_currency.usd,
+            news: newsData.articles,
         }
         return coinData
+    } catch (error) {
+        throw error
+    }
+}
+
+async function getCoinMarketPrice(coin = 'bitcoin') {
+    try {
+        const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${coin}?tickers=true&market_data=true&community_data=true&developer_data=false&sparkline=false
+        `)
+        return res.data.market_data.current_price.usd
+    } catch (error) {
+        throw error
+    }
+}
+
+// const API_KEY = '2acd394991b14d9cbf4c3bcf9d4e1355'
+
+async function getCryptoNews(coin = 'bitcoin') {
+    const options = {
+        method: 'GET',
+        url: 'https://free-news.p.rapidapi.com/v1/search',
+        params: { q: coin, lang: 'en' },
+        headers: {
+            'X-RapidAPI-Key': '4de17d17cfmsha6ed6fe590694dbp1b8813jsn3a2bbe0dd82d',
+            'X-RapidAPI-Host': 'free-news.p.rapidapi.com'
+        }
+    };
+    
+    try {
+        const res = await axios.request(options)
+        return res.data
     } catch (error) {
         throw error
     }

@@ -3,25 +3,21 @@
 // Setup
 @import "setup/mixins.scss";
 
-// // Basics
+// // // Basics
 @import "basics/typography.scss";
 @import "basics/base.scss";
 
-// // Pages
+// // // Pages
 @import "pages/data.scss";
 @import "pages/home.scss";
 @import "pages/stats.scss";
-@import "pages/about.scss";
+// @import "pages/about.scss";
 
-// // Components
+// // // Components
 @import "cmps/app-header.scss";
-@import "cmps/buy-modal.scss";
-@import "cmps/chart.scss";
+// @import "cmps/buy-modal.scss";
+// @import "cmps/chart.scss";
 
 .App {
-    display: flex;
-
-    // .container {
-        // flex-grow: 1;
-    // }
+    // display: flex;
 }

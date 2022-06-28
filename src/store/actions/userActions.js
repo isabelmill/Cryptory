@@ -1,9 +1,10 @@
 import { userService } from "../../srvices/userService"
 
+
 export function loadLoggedInUser() {
     return async (dispatch) => {
         try {
-            const user = await userService.getLoggedinUser()
+            let user = await userService.getLoggedinUser()
             dispatch({ type: 'SET_USER', user })
         } catch (err) {
             console.log('err:', err)
@@ -11,6 +12,8 @@ export function loadLoggedInUser() {
 
     }
 }
+
+
 
 export function loadUsers() {
     return async (dispatch) => {
@@ -29,6 +32,32 @@ export function updateUser(user) {
         try {
             const updatedUser = await userService.updateUser(user)
             dispatch({ type: 'UPDATE_USER', user: updatedUser })
+        } catch (err) {
+            console.log('err:', err)
+        }
+
+    }
+}
+
+export function login(user) {
+    return async (dispatch) => {
+        try {
+            const newLoggedUser = await userService.login(user)
+            dispatch({ type: 'SET_USER', newLoggedUser })
+        } catch (err) {
+            console.log('err:', err)
+        }
+
+    }
+}
+
+export function signup(user) {
+    return async (dispatch) => {
+        try {
+            let newUser = await userService.signup(user)
+            newUser = await userService.login(user)
+            dispatch({ type: 'ADD_USER', newUser })
+            dispatch({ type: 'SET_USER', newUser })
         } catch (err) {
             console.log('err:', err)
         }
