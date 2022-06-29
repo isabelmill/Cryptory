@@ -1,0 +1,111 @@
+.signup-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #1B1F24;
+    color: #d0d1d4;
+    min-height: 100vh;
+    align-items: center;
+    padding: 40px 0 40px 0;
+
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        background-color: rgb(18, 20, 24);
+        height: min-content;
+        // width: min-content;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: -1px 8px 15px 2px rgb(0 0 0 / 72%);
+
+        .login {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+
+            a {
+                transition: 0.2s;
+
+                &:hover {
+                    color: #0085FF;
+                }
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            h1 {
+                font-size: 35px;
+                font-weight: 600;
+                margin-bottom: 15px;
+            }
+
+            p {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            input {
+                border: none;
+                // outline: none;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #F0F0F0;
+
+                &:focus {
+                    outline-color: rgb(126, 172, 228);
+                }
+            }
+
+            img {
+                width: 100px;
+                height: 100px;
+                margin: auto;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                object-fit: cover;
+            }
+
+            .img {
+                width: 100px;
+                height: 100px;
+                background-color: #F0F0F0;
+                color: #1B1F24;
+                margin: auto;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 600;
+            }
+
+            .signup-btn {
+                width: 100%;
+                margin-top: 8px;
+                padding: 3px;
+                border-radius: 5px;
+                background-color: #0085FF;
+                color: white;
+                border: none;
+                font-size: 16px;
+                outline: none;
+                font-weight: 500;
+                transition: 0.2s;
+
+                &:hover {
+                    background-color: #2997fe;
+
+                }
+            }
+        }
+    }
+}

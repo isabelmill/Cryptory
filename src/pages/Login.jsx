@@ -27,27 +27,31 @@ export function Login() {
 
     const loginUser = async (ev) => {
         ev.preventDefault()
+        if (!user.email || !user.password) return
         dispatch(login(user))
-        makeUser()
         navigate("/");
     }
 
     if (!user) return <div>Loading...</div>
     return (
-        <section className="login">
-            <form onSubmit={loginUser} >
-                <h1>LOGIN PAGE</h1>
-                <p>Email</p>
-                <input name="email" id="email" onChange={handleChange} type="text" value={user.email} />
-                <p>Password</p>
-                <input onChange={handleChange} value={user.password} type="password" name="password" id="password" />
-                <button>Login</button>
-            </form>
-            <p>Dont have account?
-                <NavLink className="link" to='/signup'>
-                    Signup
-                </NavLink>
-            </p>
+        <section className="login-form">
+            <div className="form">
+                <form onSubmit={loginUser} >
+                    <h1>Log In</h1>
+                    <p>Email</p>
+                    <input required name="email" id="email" onChange={handleChange} type="text" value={user.email} />
+                    <p>Password</p>
+                    <input required onChange={handleChange} value={user.password} type="password" name="password" id="password" />
+                    <button className='login-btn'>Login</button>
+                </form>
+                <div className="signup">
+                    <p>Don`t have an account?
+                    </p>
+                        <NavLink className="link" to='/signup'>
+                            Signup here
+                        </NavLink>
+                </div>
+            </div>
         </section>
     )
 }

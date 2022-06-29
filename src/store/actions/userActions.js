@@ -51,6 +51,19 @@ export function login(user) {
     }
 }
 
+export function logout() {
+    return async (dispatch) => {
+        try {
+            const newLoggedUser = await userService.logout()
+            console.log(newLoggedUser);
+            dispatch({ type: 'SET_USER', newLoggedUser })
+        } catch (err) {
+            console.log('err:', err)
+        }
+
+    }
+}
+
 export function signup(user) {
     return async (dispatch) => {
         try {

@@ -23,6 +23,14 @@
         align-items: center;
         font-size: rem(18px);
 
+        .logout {
+            border: none;
+            background-color: transparent;
+            font-size: rem(18px);
+            color: #d0d1d4;
+
+        }
+
 
         .user-logo {
             background-color: rgb(242, 243, 243);
@@ -34,7 +42,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
+            cursor: default;
 
             img {
                 border-radius: 100%;

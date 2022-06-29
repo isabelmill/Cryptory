@@ -93,6 +93,9 @@ function signup(userToSave) {
 }
 function logout() {
     storageService.store(STORAGE_KEY_LOGGEDIN_USER, gUsers[0])
+    const user = storageService.load(STORAGE_KEY_LOGGEDIN_USER)
+    return Promise.resolve({ ...user })
+
 }
 
 async function getLoggedinUser() {

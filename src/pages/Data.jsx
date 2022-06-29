@@ -20,7 +20,7 @@ export const Data = () => {
     const showPrice = (coinName) => {
         let price = 0
         if (coins) {
-            coins.forEach(async (coin) => {
+            coins?.forEach(async (coin) => {
                 if (coinName === coin.symbol) {
                     price = coin.price
                 }
@@ -32,7 +32,7 @@ export const Data = () => {
     const userCoins = async () => {
         let coinsArr = []
         if (loggedInUser) {
-            loggedInUser.assets.forEach(async (asset) => {
+            loggedInUser.assets?.forEach(async (asset) => {
                 coinsArr.push({
                     symbol: asset.coin,
                     price: await cryptoService.getCoinMarketPrice(asset.coin)
@@ -49,13 +49,22 @@ export const Data = () => {
             (previousValue, currentValue) => previousValue + currentValue.qty,
             0
         );
+        let totalQtyRecieved = loggedInUser.transactions.filter((trnsc) => trnsc.type === 'recieved' && asset === trnsc.symbol).reduce(
+            (previousValue, currentValue) => previousValue + currentValue.qty,
+            0
+        );
 
+        let totalCostRecieved = loggedInUser.transactions.filter((trnsc) => trnsc.type === 'recieved' && asset === trnsc.symbol).reduce(
+            (previousValue, currentValue) => previousValue + +currentValue.cost,
+            0
+        );
         let totalCost = loggedInUser.transactions.filter((trnsc) => trnsc.type === 'buy' && asset === trnsc.symbol).reduce(
             (previousValue, currentValue) => previousValue + +currentValue.cost,
             0
         );
 
-        const avg = totalCost / totalQty
+        
+        const avg = +totalCost + +totalCostRecieved / +totalQty + +totalQtyRecieved
         return Math.round((avg + Number.EPSILON) * 100) / 100
     }
 
@@ -83,7 +92,7 @@ export const Data = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {loggedInUser?.assets.map((asset) =>
+                        {loggedInUser?.assets?.map((asset) =>
                             <tr key={asset.id}>
                                 <td>{asset.id}</td>
                                 <td>{asset.symbol}</td>
@@ -100,7 +109,7 @@ export const Data = () => {
             </div>
             <div className="transactions">
                 <h1>Recent Transactions</h1>
-                {loggedInUser.transactions.map((trns) =>
+                {loggedInUser?.transactions?.map((trns) =>
                     <div className="transaction" key={trns.id}>
                         <div className="trnsc">
                             <img src={trns.img} alt="" />

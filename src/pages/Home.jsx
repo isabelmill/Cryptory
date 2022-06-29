@@ -9,6 +9,7 @@ export function Home() {
         // eslint-disable-next-line
         if (loggedInUser) {
             checkPl()
+            // eslint-disable-next-line
         }
     }, [])
 
@@ -47,7 +48,7 @@ export function Home() {
             (previousValue, currentValue) => previousValue + currentValue,
             0
         );
-        const value = UnrealizedPL + loggedInUser.coins + totalValue
+        const value = UnrealizedPL + loggedInUser?.coins + totalValue
         setProfitLoss(Math.round(((UnrealizedPL) + Number.EPSILON) * 100) / 100)
         setValue(Math.round(((value) + Number.EPSILON) * 100) / 100)
     }
@@ -57,7 +58,7 @@ export function Home() {
         <section className='home'>
             <div className='home-info'>
                 <div className="header">
-                    <h1>Hello, {loggedInUser.name}
+                    <h1>Hello, {loggedInUser?.name}
                         <img src={require("../assets/imgs/wave.png")} alt="" />
                     </h1>
                     <p>Welcome back to
@@ -68,7 +69,7 @@ export function Home() {
                             <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40"><path d="M36.958 9.542v20.916q0 1.292-.937 2.23-.938.937-2.229.937H6.208q-1.291 0-2.229-.937-.937-.938-.937-2.23V9.542q0-1.292.937-2.23.938-.937 2.229-.937h27.584q1.291 0 2.229.937.937.938.937 2.23Zm-30.75 4h27.584v-4H6.208Zm0 5.833v11.083h27.584V19.375Zm0 11.083V9.542v20.916Z" /></svg>
                             <div className="data">
                                 <h3>Total Balance</h3>
-                                <p>{Math.round(((loggedInUser.coins) + Number.EPSILON) * 100) / 100} $</p>
+                                <p>{Math.round(((loggedInUser?.coins) + Number.EPSILON) * 100) / 100} $</p>
                             </div>
                         </div>
                         <div className="balance">

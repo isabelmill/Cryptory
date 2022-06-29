@@ -51,6 +51,9 @@ export const BuyModal = (props) => {
         props.onHandleModal(false, '');
     }
 
+
+    ////////// buy ///////////
+
     const buy = () => {
         // check()
         if (!price || +price < 0 || price === '0' || price === '-0') {
@@ -79,14 +82,18 @@ export const BuyModal = (props) => {
             (previousValue, currentValue) => previousValue + +currentValue.qty,
             0
         );
-        console.log('totalQty', totalQty);
+
+        let recieved = user.transactions.filter((trnsc) => trnsc.type === 'recieved' && trnsc.symbol === coin).reduce(
+            (previousValue, currentValue) => previousValue + +currentValue.qty,
+            0
+        );
+
 
         let totalCost = user.transactions.filter((trnsc) => trnsc.type === 'buy' && trnsc.symbol === coin).reduce(
             (previousValue, currentValue) => previousValue + +currentValue.cost,
             0
         );
-        console.log('totalCost', totalCost);
-        const asset = userService.makeAsset(coin, coinData.symbol, totalQty, totalCost)
+        const asset = userService.makeAsset(coin, coinData.symbol, totalQty + recieved, totalCost)
 
         const coinIdx = user.assets.findIndex(asset => asset.coin === coin);
         if (coinIdx === -1) {
@@ -100,9 +107,9 @@ export const BuyModal = (props) => {
         props.onHandleModal(false, '');
     }
 
-    // const check = () => {
-    //     console.log('pp');
-    // }
+    ////////// buy ///////////
+
+    ////////// sell ///////////
 
     const sell = () => {
         const user = JSON.parse(JSON.stringify(props.user))
@@ -135,9 +142,12 @@ export const BuyModal = (props) => {
         props.onHandleModal(false, '');
     }
 
+    ////////// sell ///////////
+    ////////// transfer ///////////
+
     const transfer = () => {
         const user = JSON.parse(JSON.stringify(props.user))
-        const userTransfer = props.users.find((user)=> user.wallet === wallet)
+        const userTransfer = props.users.find((user) => user.wallet === wallet)
 
         const asset = user.assets.find((asset) => asset.coin === coin)
         if (!qty || +qty > asset.totalQty || qty < 0) {
@@ -147,7 +157,7 @@ export const BuyModal = (props) => {
                 shares.current.style.visibility = 'hidden'
             }, 1500)
             return
-        } else if(user.wallet === wallet){
+        } else if (user.wallet === wallet) {
             console.log('got here');
             walletNum.current.innerText = 'You cant transfer to yourself'
             walletNum.current.style.visibility = 'visible'
@@ -155,7 +165,7 @@ export const BuyModal = (props) => {
                 walletNum.current.style.visibility = 'hidden'
             }, 1500)
             return
-        } else if (!userTransfer.wallet){
+        } else if (!userTransfer.wallet) {
             walletNum.current.innerText = 'No user with this wallet number was found'
             walletNum.current.style.visibility = 'visible'
             setTimeout(() => {
@@ -164,7 +174,7 @@ export const BuyModal = (props) => {
             return
         }
 
-        const transactionIn = userService.makeTransaction('Recieved', coin, price, qty, coinData.coinImage)
+        const transactionIn = userService.makeTransaction('recieved', coin, price, qty, coinData.coinImage)
         const transactionOut = userService.makeTransaction(props.transactionType, coin, price, qty, coinData.coinImage)
 
         user.transactions = [transactionOut, ...user.transactions]
@@ -180,14 +190,34 @@ export const BuyModal = (props) => {
         } else {
             user.assets.splice(coinIdx, 1, asset)
         }
+        
+        
+        /////////////////////////////
+        const findAsset = userTransfer.assets.find(asset => asset.coin === coin);
+        const findAssetIdx = userTransfer.assets.findIndex(asset => asset.coin === coin);
+        if (findAsset) {
+            findAsset.totalQty += +qty
+            console.log();
+            findAsset.totalCost += (+price - pl)
+            userTransfer.assets.splice(findAssetIdx, 1, findAsset)
+        } else {
+
+        const makeAsset = userService.makeAsset(coin, coinData.symbol, +qty, +price - pl)
+        userTransfer.assets = [makeAsset, ...userTransfer.assets]
+        }
+        /////////////////////////////
+
+
 
         //TODO update the data of revieving user
 
         user.coins += (+price + pl)
-        // dispatch(updateUser(user))
-        // dispatch(updateUser(userTransfer))
+        dispatch(updateUser(userTransfer))
+        dispatch(updateUser(user))
         props.onHandleModal(false, '');
     }
+
+    ////////// transfer ///////////
 
 
     if (!coinData) return <div>Loading...</div>
@@ -225,15 +255,15 @@ export const BuyModal = (props) => {
                         <input type="number" placeholder={price} min={0} onChange={changePrice} value={price} />
                         <p ref={amount}>problem</p>
                     </div>
-                  {props.transactionType === 'transfer' &&  <div className="shares">
-                  <label>Wallet Number</label>
-                  <input type="text" onChange={changeWallet} value={wallet} />
-                <p ref={walletNum}>problem</p>
+                    {props.transactionType === 'transfer' && <div className="shares">
+                        <label>Wallet Number</label>
+                        <input type="text" onChange={changeWallet} value={wallet} />
+                        <p ref={walletNum}>problem</p>
 
                     </div>}
                 </div>
-                <h3>${Math.round(((props.user.coins) + Number.EPSILON) * 100) / 100 } Available</h3>
-                { props.transactionType !== 'buy' && props.user.assets.filter((asset) => asset.coin === coin).map((asset)=> <h3> Coin Total QTY: {Math.round(((asset.totalQty) + Number.EPSILON) * 100) / 100 }</h3>)}
+                <h3>${Math.round(((props.user.coins) + Number.EPSILON) * 100) / 100} Available</h3>
+                {props.transactionType !== 'buy' && props.user.assets.filter((asset) => asset.coin === coin).map((asset) => <h3> Coin Total QTY: {Math.round(((asset.totalQty) + Number.EPSILON) * 100) / 100}</h3>)}
 
                 <div className="submit">
                     {button}
