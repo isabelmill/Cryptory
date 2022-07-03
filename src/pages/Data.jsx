@@ -9,7 +9,7 @@ export const Data = () => {
     const { loggedInUser } = useSelector(state => state.userModule)
     const dispatch = useDispatch()
     const [coins, setCoins] = useState()
-    const [asset, setAsset] = useState(loggedInUser.assets[0])
+    const [asset, setAsset] = useState({})
     const [options, setOptions] = useState([])
 
 
@@ -17,11 +17,14 @@ export const Data = () => {
         dispatch(loadLoggedInUser())
         userCoins()
         makeOptions()
+        if (loggedInUser) {
+            setAsset(loggedInUser.assets[0])
+        }
         // eslint-disable-next-line
     }, [])
 
     const handleChange = ({ value }) => {
-        const asset = loggedInUser.assets.find((asset)=>
+        const asset = loggedInUser.assets.find((asset) =>
             asset.coin === value
         )
         setAsset(asset)
@@ -93,8 +96,25 @@ export const Data = () => {
         }
     }
 
+    const makePlPercent = (asset) => {
+        return Math.round((((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) * 100) / asset.totalCost) + Number.EPSILON) * 100) / 100
+    }
+    const makePl = (asset) => {
+        return Math.round((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) + Number.EPSILON) * 100) / 100
+    }
 
-    if (!loggedInUser) return <div>Loading...</div>
+    const loadingScreen = <div className="box">
+        <div class="spinner-box">
+            <div class="pulse-container">
+                <div class="pulse-bubble pulse-bubble-1"></div>
+                <div class="pulse-bubble pulse-bubble-2"></div>
+                <div class="pulse-bubble pulse-bubble-3"></div>
+            </div>
+        </div>
+    </div>
+
+
+    if (!loggedInUser) return loadingScreen
     return (
         <section className='data-main'>
             <div className="positions">
@@ -159,8 +179,8 @@ export const Data = () => {
                                     <td>{Math.round(((asset.totalQty) + Number.EPSILON) * 100) / 100}</td>
                                     <td>{getAvg(asset.coin)} $</td>
                                     <td>{showPrice(asset.coin)} $</td>
-                                    <td>{Math.round((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) + Number.EPSILON) * 100) / 100} $</td>
-                                    <td>{Math.round((((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) * 100) / asset.totalCost) + Number.EPSILON) * 100) / 100} %</td>
+                                    <td style={{ color: makePl(asset) < 0 ? '#E34A4A' : '#4FAF4F' }}>{makePl(asset)} $</td>
+                                    <td style={{ color: makePlPercent(asset) < 0 ? '#E34A4A' : '#4FAF4F' }}>{makePlPercent(asset)} %</td>
                                     <td>{Math.round(((asset.totalCost) + Number.EPSILON) * 100) / 100} $</td>
                                 </tr>
                             )}

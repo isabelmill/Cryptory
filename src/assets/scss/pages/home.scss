@@ -98,8 +98,47 @@
             font-size: 18px;
         }
 
+        .add-to-balance {
+            margin-top: 8px;
+            h1 {
+                font-size: 16px;
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                svg {
+                    fill: #d0d1d4;
+                }
+            }
+
+            input {
+                border: none;
+                border-radius: 5px;
+                padding: 5px;
+                background-color: #F0F0F0;
+                color: #4a4a4a;
+                text-align: center;
+                font-weight: 600;
+                outline: none;
+                margin-right: 5px;
+                width: 80%;
+            }
+
+            button {
+                outline: none;
+                border: none;
+                border-radius: 3px;
+                padding: 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: white;
+                background-color: #5182C6;
+            }
+        }
+
         .wallet {
-            margin-bottom: 12px;
+            // margin-bottom: 12px;
 
             h1 {
                 font-size: 16px;
@@ -170,7 +209,7 @@
         // flex-direction: column-reverse;
         padding-top: 120px;
 
-        .user-info{
+        .user-info {
             // margin-top: 0;
             margin-bottom: 40px;
         }
@@ -195,8 +234,12 @@
                 // width: fit-content;
                 justify-content: center;
                 align-items: center;
-                .balance{
+
+                .balance {
                     width: 230px;
+                    p{
+                        font-size: 20px !important;
+                    }
                 }
             }
         }

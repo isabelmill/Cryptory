@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadLoggedInUser } from '../store/actions/userActions'
+import { loadLoggedInUser, updateUser } from '../store/actions/userActions'
+
 
 export function Home() {
 
@@ -16,6 +17,7 @@ export function Home() {
     const dispatch = useDispatch()
     const [profitLoss, setProfitLoss] = useState()
     const [value, setValue] = useState()
+    const [coins, setCoins] = useState(0)
     const copied = useRef(null);
 
     const { loggedInUser } = useSelector(state => state.userModule)
@@ -28,6 +30,19 @@ export function Home() {
             copied.current.style.visibility = 'hidden'
         }, 1500)
 
+    }
+
+    const addToBalance = () => {
+        if (coins === 0 || coins < 0 || coins > 5000) return
+        console.log(+coins);
+        const user = JSON.parse(JSON.stringify(loggedInUser))
+        user.coins += +coins
+        dispatch(updateUser(user))
+        setCoins(0)
+    }
+
+    const handleCoins = ({ target }) => {
+        setCoins(target.value)
     }
 
     const checkPl = () => {
@@ -53,7 +68,18 @@ export function Home() {
         setValue(Math.round(((value) + Number.EPSILON) * 100) / 100)
     }
 
-    if (!loggedInUser) return <div>Loading...</div>
+    const loadingScreen = <div className="box">
+        <div class="spinner-box">
+            <div class="pulse-container">
+                <div class="pulse-bubble pulse-bubble-1"></div>
+                <div class="pulse-bubble pulse-bubble-2"></div>
+                <div class="pulse-bubble pulse-bubble-3"></div>
+            </div>
+        </div>
+    </div>
+
+    if (!loggedInUser) return loadingScreen
+
     return (
         <section className='home'>
             <div className='home-info'>
@@ -83,7 +109,7 @@ export function Home() {
                             <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40"><path d="m5.458 31.083-2.375-2.375 12.75-12.75 6.667 6.667 12.208-13.75 2.209 2.208L22.5 27.375l-6.667-6.667Z" /></svg>
                             <div className="data">
                                 <h3>Unrealized P&L</h3>
-                                <p>{profitLoss} $</p>
+                                <p style={{ color: profitLoss < 0 ? '#E34A4A' : '#4FAF4F' }}>{profitLoss} $</p>
                             </div>
                         </div>
                     </div>
@@ -96,11 +122,19 @@ export function Home() {
                 <div className="wallet">
                     <h1>
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M13.292 11.229q.541 0 .885-.344.344-.343.344-.885t-.344-.885q-.344-.344-.885-.344-.542 0-.886.344-.344.343-.344.885t.344.885q.344.344.886.344Zm-8.98 4.459V4.312v11.376Zm0 1.979q-.833 0-1.406-.573t-.573-1.406V4.312q0-.833.573-1.406t1.406-.573h11.376q.833 0 1.406.573t.573 1.406v1.876h-1.979V4.312H4.312v11.376h11.376v-1.896h1.979v1.896q0 .833-.573 1.406t-1.406.573Zm6.48-3.459q-.688 0-1.198-.5-.511-.5-.511-1.187V7.5q0-.688.5-1.208.5-.521 1.188-.521h6.041q.688 0 1.188.521.5.52.5 1.208v5.021q0 .687-.5 1.187t-1.188.5Zm5.958-1.75V7.521h-5.917v4.937Z" /></svg>
-                        Wallet</h1>
+                        Wallet
+                    </h1>
                     <p onClick={copy}>{loggedInUser.wallet}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#d0d1d4" height="24" width="24"><path d="M9.2 18.075q-.925 0-1.6-.675t-.675-1.6V3.925q0-.925.675-1.6t1.6-.675h8.875q.925 0 1.6.675t.675 1.6V15.8q0 .925-.675 1.6t-1.6.675Zm0-2.275h8.875V3.925H9.2V15.8Zm-4.275 6.55q-.925 0-1.6-.675t-.675-1.6V6.15h2.275v13.925H15.85v2.275ZM9.2 3.925V15.8 3.925Z" /></svg>
                     </p>
                     <h6 ref={copied}>copied!</h6>
+                </div>
+                <div className="add-to-balance">
+                    <h1>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M8 17h2v-1h1q.425 0 .713-.288Q12 15.425 12 15v-3q0-.425-.287-.713Q11.425 11 11 11H8v-1h4V8h-2V7H8v1H7q-.425 0-.713.287Q6 8.575 6 9v3q0 .425.287.712Q6.575 13 7 13h3v1H6v2h2Zm8-.75 2-2h-4ZM14 10h4l-2-2ZM4 20q-.825 0-1.412-.587Q2 18.825 2 18V6q0-.825.588-1.412Q3.175 4 4 4h16q.825 0 1.413.588Q22 5.175 22 6v12q0 .825-.587 1.413Q20.825 20 20 20Zm0-2h16V6H4v12Zm0 0V6v12Z" /></svg>
+                        Add to balance - max 5000$</h1>
+                    <input value={coins} min={0} placeholder={coins} onChange={handleCoins} type="number" />
+                    <button onClick={addToBalance}>Add</button>
                 </div>
             </div>
         </section>

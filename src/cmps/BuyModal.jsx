@@ -205,11 +205,7 @@ export const BuyModal = (props) => {
         const makeAsset = userService.makeAsset(coin, coinData.symbol, +qty, +price - pl)
         userTransfer.assets = [makeAsset, ...userTransfer.assets]
         }
-        /////////////////////////////
 
-
-
-        //TODO update the data of revieving user
 
         user.coins += (+price + pl)
         dispatch(updateUser(userTransfer))
@@ -220,7 +216,17 @@ export const BuyModal = (props) => {
     ////////// transfer ///////////
 
 
-    if (!coinData) return <div>Loading...</div>
+    const loadingScreen = <div className="box">
+            <div class="spinner-box">
+                <div class="pulse-container">
+                    <div class="pulse-bubble pulse-bubble-1"></div>
+                    <div class="pulse-bubble pulse-bubble-2"></div>
+                    <div class="pulse-bubble pulse-bubble-3"></div>
+                </div>
+            </div>
+        </div>
+
+    if (!coinData) return loadingScreen
     let button
     if (props.transactionType === 'buy') {
         button = <button className='buy' onClick={buy}>Buy</button>
