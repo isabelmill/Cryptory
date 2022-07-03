@@ -10,12 +10,20 @@ export function Chart(props) {
             const handleResize = () => {
                 chart.applyOptions({ width: chartContainerRef.current.clientWidth });
             };
+            
+            const makeHeight = () => {
+                if (window.innerWidth < 1301) {
+                    return 350
+                } else {
+                    return window.innerHeight - 340
+                }
+            }
 
             const { data } = props
 
             const chart = createChart(chartContainerRef.current, {
                 width: chartContainerRef.current.clientWidth,
-                height: window.innerHeight - 340,
+                height: makeHeight(),
                 layout: {
                     background: {
                         color: 'transparent'

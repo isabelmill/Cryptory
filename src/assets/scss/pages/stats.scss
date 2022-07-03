@@ -138,7 +138,7 @@
                 padding: 20px;
                 box-shadow: -1px 8px 15px 2px rgb(0 0 0 / 72%);
                 margin-top: 90px;
-                max-width: 378px;
+                // max-width: 378px;
 
 
                 .stats-header {
@@ -431,7 +431,7 @@
                     }
                 }
 
-                p{
+                p {
                     font-size: 12px;
                     visibility: hidden;
                     margin: 0;
@@ -490,7 +490,7 @@
                 border: none;
                 font-weight: 600;
                 font-size: 16px;
-                background-color: rgb(81,130,198);
+                background-color: rgb(81, 130, 198);
                 color: white;
                 transition: 0.3s;
 
@@ -502,9 +502,113 @@
     }
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none; 
+    appearance: none;
+}
+
+
+//// MQ ////
+
+
+@media screen and (max-width: 1260px) {
+    .stats {
+        .stats-info {
+            flex-direction: column;
+            // justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 24px;
+
+            .stats-chart-user {
+                width: 100%;
+                padding: 0 30px;
+
+                .user-info {
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 24px;
+                }
+            }
+
+            .coin-data {
+                .stats-coin-info {
+                    margin-top: 0;
+                    // padding: 0 30px;
+                    width: 330px;
+
+                    h1 {
+                        font-size: 20px;
+                    }
+
+                    p {
+                        font-size: 12.5px;
+                    }
+                }
+            }
+        }
+
+        .stats-chart {
+            margin-bottom: 24px;
+            // width: 300px;
+
+            .chart-info {
+                .coins {
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 15px;
+
+                    .coin-info {
+                        flex-direction: row !important;
+
+                        h1 {
+                            font-size: 20px !important;
+
+                        }
+
+                        h2 {
+                            font-size: 20px !important;
+                        }
+                    }
+
+                    .select {
+                        width: 200px;
+                        margin-bottom: 15px;
+                    }
+                }
+            }
+        }
+
+        .stats-news {
+            h1 {
+                margin: 0 0 0 0;
+                text-align: center;
+            }
+
+            .news {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                // display: none !important;
+                .other-articles {
+                    .article a {
+                        width: 300px;
+                        flex-direction: column-reverse;
+                        .img{
+                            max-width: unset;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .buy-info{
+        flex-direction: column;
+    }
 }

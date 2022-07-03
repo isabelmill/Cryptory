@@ -143,3 +143,62 @@
         }
     }
 }
+
+//// MQ ////
+
+@media screen and (max-width: 1000px) {
+    .home {
+        flex-direction: column;
+        justify-content: unset;
+        align-items: center;
+
+        .header {
+            margin-bottom: 60px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+        }
+    }
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 750px) {
+    .home {
+        // flex-direction: column-reverse;
+        padding-top: 120px;
+
+        .user-info{
+            // margin-top: 0;
+            margin-bottom: 40px;
+        }
+
+        .header {
+            // justify-content: center;
+            // align-items: center;
+            text-align: center;
+
+            h1 {
+                text-align: center;
+                font-size: 35px !important;
+            }
+
+            p {
+                text-align: center;
+                font-size: 25px !important;
+            }
+
+            .portfolio {
+                flex-direction: column;
+                // width: fit-content;
+                justify-content: center;
+                align-items: center;
+                .balance{
+                    width: 230px;
+                }
+            }
+        }
+    }
+}

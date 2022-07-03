@@ -35,7 +35,7 @@ export function Signup() {
             <div className="form">
                 <form onSubmit={signupUser} >
                     <h1>Sign Up</h1>
-                    <p>You`r wallet number will be generated automaticaly</p>
+                    <p>Your wallet number will be generated automaticaly</p>
                     <p>Name</p>
                     <input name="name" id="name" onChange={handleChange} type="text" value={user.name} required />
                     <p>Email</p>

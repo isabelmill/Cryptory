@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadCoinMarketData, loadCoinData } from '../store/actions/cryptoActions'
-import { loadLoggedInUser , loadUsers } from '../store/actions/userActions'
+import { loadLoggedInUser, loadUsers } from '../store/actions/userActions'
 import { Chart } from '../cmps/Chart'
 import { BuyModal } from '../cmps/BuyModal'
 import Select from 'react-select'
@@ -59,7 +59,20 @@ export function Stats() {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    if (!loggedInUser || !data || !coinData || !users) return <div>Loading...</div>
+    const loadingScreen = <div className="box">
+            <div class="spinner-box">
+                <div class="pulse-container">
+                    <div class="pulse-bubble pulse-bubble-1"></div>
+                    <div class="pulse-bubble pulse-bubble-2"></div>
+                    <div class="pulse-bubble pulse-bubble-3"></div>
+                </div>
+            </div>
+        </div>
+
+    if (!loggedInUser || !data || !coinData || !users) {
+        return loadingScreen
+    }
+
 
     return (
         <section className="stats" >

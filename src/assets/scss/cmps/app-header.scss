@@ -68,7 +68,6 @@
         display: flex;
         font-size: rem(18px);
         gap: 18px;
-        margin-left: 40px;
 
         .link {
             display: flex;
@@ -91,5 +90,27 @@
 
     svg {
         fill: #A9BEFD;
+    }
+}
+
+//// MQ ////
+
+
+@media screen and (max-width: 750px) {
+    .logo{
+        h1{
+            display: none;
+        }
+    }
+    .nav-bar {
+
+        a {
+            p {
+                display: none;
+            }
+            svg{
+                display: block;
+            }
+        }
     }
 }
