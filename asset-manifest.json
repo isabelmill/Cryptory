@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/cryptory/static/css/main.3c88d916.css",
-    "main.js": "/cryptory/static/js/main.8091796b.js",
+    "main.css": "/cryptory/static/css/main.9d24df22.css",
+    "main.js": "/cryptory/static/js/main.9c91ac69.js",
     "static/js/787.6c1cabd2.chunk.js": "/cryptory/static/js/787.6c1cabd2.chunk.js",
     "static/media/Inter-Bold.ttf": "/cryptory/static/media/Inter-Bold.1eca2d329458b92342aa.ttf",
     "static/media/Inter-Regular.ttf": "/cryptory/static/media/Inter-Regular.a3e5baa244e35d0f891d.ttf",
     "static/media/logo.JPG": "/cryptory/static/media/logo.462d81d76df88933708c.JPG",
     "index.html": "/cryptory/index.html",
-    "main.3c88d916.css.map": "/cryptory/static/css/main.3c88d916.css.map",
-    "main.8091796b.js.map": "/cryptory/static/js/main.8091796b.js.map",
+    "main.9d24df22.css.map": "/cryptory/static/css/main.9d24df22.css.map",
+    "main.9c91ac69.js.map": "/cryptory/static/js/main.9c91ac69.js.map",
     "787.6c1cabd2.chunk.js.map": "/cryptory/static/js/787.6c1cabd2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3c88d916.css",
-    "static/js/main.8091796b.js"
+    "static/css/main.9d24df22.css",
+    "static/js/main.9c91ac69.js"
   ]
 }
