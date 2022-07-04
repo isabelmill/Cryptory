@@ -1,6 +1,8 @@
 const INITIAL_STATE = {
     loggedInUser: null,
-    users: []
+    users: [],
+    loading: true,
+    error: null
 }
 
 
@@ -10,6 +12,8 @@ export function userReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 loggedInUser: { ...action.user }
+                // loggedInUser: Object.assign({}, action.user, { modalOpen: true })
+
             }
         case 'SET_USERS':
             return {

@@ -114,6 +114,7 @@ export const BuyModal = (props) => {
     const sell = () => {
         const user = JSON.parse(JSON.stringify(props.user))
         const asset = user.assets.find((asset) => asset.coin === coin)
+        console.log(asset.totalQty);
         if (!qty || +qty > asset.totalQty || qty < 0) {
             shares.current.innerText = 'Please write correct number'
             shares.current.style.visibility = 'visible'
@@ -197,7 +198,6 @@ export const BuyModal = (props) => {
         const findAssetIdx = userTransfer.assets.findIndex(asset => asset.coin === coin);
         if (findAsset) {
             findAsset.totalQty += +qty
-            console.log();
             findAsset.totalCost += (+price - pl)
             userTransfer.assets.splice(findAssetIdx, 1, findAsset)
         } else {
@@ -207,7 +207,7 @@ export const BuyModal = (props) => {
         }
 
 
-        user.coins += (+price + pl)
+        userTransfer.coins += (+price + pl)
         dispatch(updateUser(userTransfer))
         dispatch(updateUser(user))
         props.onHandleModal(false, '');
@@ -252,7 +252,7 @@ export const BuyModal = (props) => {
                 </div>
                 <div className="buy-info">
                     <div className="shares">
-                        <label>Shares</label>
+                        <label>Coins</label>
                         <input type="number" placeholder={qty} min={0} onChange={changeQty} value={qty} />
                         <p ref={shares}>problem</p>
                     </div>
@@ -269,7 +269,7 @@ export const BuyModal = (props) => {
                     </div>}
                 </div>
                 <h3>${Math.round(((props.user.coins) + Number.EPSILON) * 100) / 100} Available</h3>
-                {props.transactionType !== 'buy' && props.user.assets.filter((asset) => asset.coin === coin).map((asset) => <h3> Coin Total QTY: {Math.round(((asset.totalQty) + Number.EPSILON) * 100) / 100}</h3>)}
+                {props.transactionType !== 'buy' && props.user.assets.filter((asset) => asset.coin === coin).map((asset) => <h3> Coin Total QTY: {asset.totalQty}</h3>)}
 
                 <div className="submit">
                     {button}

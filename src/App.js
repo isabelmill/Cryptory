@@ -1,4 +1,3 @@
-// import { Redirect } from 'react-router-dom';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 import { AppHeader } from './cmps/AppHeader.jsx';
 import './assets/scss/styles.scss'

@@ -33,7 +33,7 @@ export const Data = () => {
     const showPrice = (coinName) => {
         let price = 0
         if (coins) {
-            coins?.forEach(async (coin) => {
+            coins.forEach(async (coin) => {
                 if (coinName === coin.symbol) {
                     price = coin.price
                 }
@@ -58,20 +58,20 @@ export const Data = () => {
 
     const getAvg = (asset) => {
 
-        let totalQty = loggedInUser.transactions.filter((trnsc) => trnsc.type === 'buy' && asset === trnsc.symbol).reduce(
+        let totalQty = loggedInUser?.transactions?.filter((trnsc) => trnsc.type === 'buy' && asset === trnsc.symbol).reduce(
             (previousValue, currentValue) => previousValue + currentValue.qty,
             0
         );
-        let totalQtyRecieved = loggedInUser.transactions.filter((trnsc) => trnsc.type === 'recieved' && asset === trnsc.symbol).reduce(
+        let totalQtyRecieved = loggedInUser?.transactions?.filter((trnsc) => trnsc.type === 'recieved' && asset === trnsc.symbol).reduce(
             (previousValue, currentValue) => previousValue + currentValue.qty,
             0
         );
 
-        let totalCostRecieved = loggedInUser.transactions.filter((trnsc) => trnsc.type === 'recieved' && asset === trnsc.symbol).reduce(
+        let totalCostRecieved = loggedInUser?.transactions?.filter((trnsc) => trnsc.type === 'recieved' && asset === trnsc.symbol).reduce(
             (previousValue, currentValue) => previousValue + +currentValue.cost,
             0
         );
-        let totalCost = loggedInUser.transactions.filter((trnsc) => trnsc.type === 'buy' && asset === trnsc.symbol).reduce(
+        let totalCost = loggedInUser?.transactions?.filter((trnsc) => trnsc.type === 'buy' && asset === trnsc.symbol).reduce(
             (previousValue, currentValue) => previousValue + +currentValue.cost,
             0
         );
@@ -113,8 +113,20 @@ export const Data = () => {
         </div>
     </div>
 
+    const mathRound = (trnsCost) => {
+        return Math.round(((trnsCost) + Number.EPSILON) * 100) / 100
+    }
+
+    const checkColor = (asset) => {
+        const num = makePl(asset)
+        if (num > 0) return '#4FAF4F'
+        else if (num < 0) return '#E34A4A'
+        else if (num === 0 || num === NaN) return '#d0d1d4'
+    }
+
 
     if (!loggedInUser) return loadingScreen
+
     return (
         <section className='data-main'>
             <div className="positions">
@@ -123,7 +135,7 @@ export const Data = () => {
 
                 <div className="user-assets">
                     <Select options={options} id="coins" onChange={handleChange} className='select' />
-                    <div className="asset-info">
+                    {asset && <div className="asset-info">
                         <div className="info">
                             <p>Symbol</p>
                             <p>{asset.symbol}</p>
@@ -143,17 +155,18 @@ export const Data = () => {
                         </div>
                         <div className="info">
                             <p>Unrealized P/L $</p>
-                            <p>{Math.round((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) + Number.EPSILON) * 100) / 100} $</p>
+                            <p  style={{ color: checkColor(asset)}}>{Math.round((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) + Number.EPSILON) * 100) / 100} $</p>
                         </div>
                         <div className="info">
                             <p>Unrealized P/L %</p>
-                            <p>{Math.round((((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) * 100) / asset.totalCost) + Number.EPSILON) * 100) / 100} %</p>
+                            <p  style={{ color: checkColor(asset)}}>{Math.round((((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) * 100) / asset.totalCost) + Number.EPSILON) * 100) / 100} %</p>
                         </div>
                         <div className="info">
                             <p>Total Cost</p>
                             <p>{Math.round(((asset.totalCost) + Number.EPSILON) * 100) / 100} $</p>
                         </div>
-                    </div>
+                    </div>}
+                    {!asset && <p className="asset-info">No Assets</p>}
                 </div>
 
 
@@ -179,8 +192,8 @@ export const Data = () => {
                                     <td>{Math.round(((asset.totalQty) + Number.EPSILON) * 100) / 100}</td>
                                     <td>{getAvg(asset.coin)} $</td>
                                     <td>{showPrice(asset.coin)} $</td>
-                                    <td style={{ color: makePl(asset) < 0 ? '#E34A4A' : '#4FAF4F' }}>{makePl(asset)} $</td>
-                                    <td style={{ color: makePlPercent(asset) < 0 ? '#E34A4A' : '#4FAF4F' }}>{makePlPercent(asset)} %</td>
+                                    <td style={{ color: checkColor(asset)}}>{makePl(asset)} $</td>
+                                    <td style={{ color: checkColor(asset)}}>{makePlPercent(asset)} %</td>
                                     <td>{Math.round(((asset.totalCost) + Number.EPSILON) * 100) / 100} $</td>
                                 </tr>
                             )}
@@ -203,7 +216,7 @@ export const Data = () => {
                             </div>
                         </div>
                         <div className="trnsc-cost">
-                            <h1>${trns.cost}</h1>
+                            <h1>${mathRound(trns.cost)}</h1>
                             <p>{getDate(trns.date)}</p>
                         </div>
                     </div>

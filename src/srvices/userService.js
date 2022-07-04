@@ -39,7 +39,7 @@ const gDefaultUsers = [
             totalQty: 0.04730368968779565
         }],
         transactions: [{
-            cost: "1000",
+            cost: 1000,
             date: 1656287026951,
             id: "FnUoI",
             mult: 47.30368968779565,

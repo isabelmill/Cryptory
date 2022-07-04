@@ -38,7 +38,7 @@ export function Stats() {
 
     const checkCoin = () => {
         if (loggedInUser) {
-            const findCoin = loggedInUser.assets.find(asset => asset.coin === coin);
+            const findCoin = loggedInUser.assets?.find(asset => asset.coin === coin);
             if (findCoin) {
                 return true
             } else return false

@@ -23,6 +23,8 @@
             gap: 20px;
             padding: 12px;
             border: 2px solid rgb(18, 20, 24);
+            text-transform: uppercase;
+
             // box-shadow: 0px 1px 10px 1px rgba(0, 0, 0, 0.72);
 
             h1 {
@@ -60,6 +62,7 @@
             box-shadow: -1px 8px 15px 2px rgba(0, 0, 0, 0.72);
             text-align: center;
             width: 100%;
+            text-transform: uppercase;
 
             thead tr {
                 background-color: #121418;
@@ -87,6 +90,8 @@
     .select {
         margin: 24px 0;
         width: 300px;
+        text-transform: capitalize;
+
     }
 
     .asset-info {
@@ -96,6 +101,8 @@
         gap: 12px;
         box-shadow: -1px 8px 15px 2px rgb(0 0 0 / 72%);
         margin-bottom: 24px;
+        text-transform: uppercase;
+
 
         .info {
             display: flex;
@@ -123,9 +130,9 @@
 @media screen and (max-width: 1005px) {
 
 
-    .transaction {
-        width: 300px;
-    }
+    // .transaction {
+    //     // width: 300px;
+    // }
 
     .styled-table {
         display: none;
@@ -148,6 +155,6 @@
     .data-main {
         flex-direction: column;
         justify-content: unset;
-
+        align-items: center;
     }
 }

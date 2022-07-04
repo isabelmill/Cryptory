@@ -26,7 +26,7 @@ export function Signup() {
         ev.preventDefault()
         dispatch(signup(user))
         makeUser()
-        navigate("/");
+        navigate("/stats");
     }
 
     if (!user) return <div>Loading...</div>

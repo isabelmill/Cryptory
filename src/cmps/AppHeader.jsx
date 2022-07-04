@@ -18,7 +18,8 @@ export function AppHeader() {
 
     const logoutUser = () => {
         dispatch(logout())
-        navigate("/data");
+        if (location.pathname === '/stats')  navigate("/");
+        else navigate("/stats");
     }
 
     if (!loggedInUser) return <div>Loading...</div>

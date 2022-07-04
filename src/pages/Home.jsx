@@ -4,15 +4,14 @@ import { loadLoggedInUser, updateUser } from '../store/actions/userActions'
 
 
 export function Home() {
+    // const [user, setUser] = useState()
 
     useEffect(() => {
         dispatch(loadLoggedInUser())
         // eslint-disable-next-line
-        if (loggedInUser) {
-            checkPl()
-            // eslint-disable-next-line
-        }
+        checkPl()
     }, [])
+
 
     const dispatch = useDispatch()
     const [profitLoss, setProfitLoss] = useState()
@@ -21,6 +20,8 @@ export function Home() {
     const copied = useRef(null);
 
     const { loggedInUser } = useSelector(state => state.userModule)
+
+
 
     const copy = () => {
         const copyText = loggedInUser.wallet
@@ -34,7 +35,6 @@ export function Home() {
 
     const addToBalance = () => {
         if (coins === 0 || coins < 0 || coins > 5000) return
-        console.log(+coins);
         const user = JSON.parse(JSON.stringify(loggedInUser))
         user.coins += +coins
         dispatch(updateUser(user))
@@ -66,14 +66,23 @@ export function Home() {
         const value = UnrealizedPL + loggedInUser?.coins + totalValue
         setProfitLoss(Math.round(((UnrealizedPL) + Number.EPSILON) * 100) / 100)
         setValue(Math.round(((value) + Number.EPSILON) * 100) / 100)
+        return true
+    }
+
+
+
+    const checkColor = () => {
+        if (profitLoss > 0) return '#4FAF4F'
+        else if (profitLoss < 0) return '#E34A4A'
+        else if (profitLoss === 0 || profitLoss === NaN) return '#d0d1d4'
     }
 
     const loadingScreen = <div className="box">
-        <div class="spinner-box">
-            <div class="pulse-container">
-                <div class="pulse-bubble pulse-bubble-1"></div>
-                <div class="pulse-bubble pulse-bubble-2"></div>
-                <div class="pulse-bubble pulse-bubble-3"></div>
+        <div className="spinner-box">
+            <div className="pulse-container">
+                <div className="pulse-bubble pulse-bubble-1"></div>
+                <div className="pulse-bubble pulse-bubble-2"></div>
+                <div className="pulse-bubble pulse-bubble-3"></div>
             </div>
         </div>
     </div>
@@ -81,15 +90,13 @@ export function Home() {
     if (!loggedInUser) return loadingScreen
 
     return (
-        <section className='home'>
+        <section onMouseMove={checkPl} onTouchMove={checkPl} className='home'>
             <div className='home-info'>
                 <div className="header">
                     <h1>Hello, {loggedInUser?.name}
                         <img src={require("../assets/imgs/wave.png")} alt="" />
                     </h1>
-                    <p>Welcome back to
-                        <h2>CRYPTORY</h2>
-                    </p>
+                    <p>Welcome back to CRYPTORY </p>
                     <div className="portfolio">
                         <div className="balance">
                             <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40"><path d="M36.958 9.542v20.916q0 1.292-.937 2.23-.938.937-2.229.937H6.208q-1.291 0-2.229-.937-.937-.938-.937-2.23V9.542q0-1.292.937-2.23.938-.937 2.229-.937h27.584q1.291 0 2.229.937.937.938.937 2.23Zm-30.75 4h27.584v-4H6.208Zm0 5.833v11.083h27.584V19.375Zm0 11.083V9.542v20.916Z" /></svg>
@@ -109,7 +116,7 @@ export function Home() {
                             <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40"><path d="m5.458 31.083-2.375-2.375 12.75-12.75 6.667 6.667 12.208-13.75 2.209 2.208L22.5 27.375l-6.667-6.667Z" /></svg>
                             <div className="data">
                                 <h3>Unrealized P&L</h3>
-                                <p style={{ color: profitLoss < 0 ? '#E34A4A' : '#4FAF4F' }}>{profitLoss} $</p>
+                                <p style={{ color: checkColor() }}>{profitLoss} $</p>
                             </div>
                         </div>
                     </div>

@@ -29,7 +29,7 @@ export function Login() {
         ev.preventDefault()
         if (!user.email || !user.password) return
         dispatch(login(user))
-        navigate("/");
+        navigate("/stats");
     }
 
     if (!user) return <div>Loading...</div>
