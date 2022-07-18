@@ -9,19 +9,20 @@ export const Data = () => {
     const { loggedInUser } = useSelector(state => state.userModule)
     const dispatch = useDispatch()
     const [coins, setCoins] = useState()
-    const [asset, setAsset] = useState({})
+    const [asset, setAsset] = useState(loggedInUser?.assets[0])
     const [options, setOptions] = useState([])
 
 
     useEffect(() => {
-        dispatch(loadLoggedInUser())
-        userCoins()
-        makeOptions()
-        if (loggedInUser) {
-            setAsset(loggedInUser.assets[0])
-        }
+        // dispatch(loadLoggedInUser())
         // eslint-disable-next-line
     }, [])
+
+    useEffect(() => {
+        userCoins()
+        makeOptions()
+        // eslint-disable-next-line
+    }, [loggedInUser])
 
     const handleChange = ({ value }) => {
         const asset = loggedInUser.assets.find((asset) =>
@@ -104,11 +105,11 @@ export const Data = () => {
     }
 
     const loadingScreen = <div className="box">
-        <div class="spinner-box">
-            <div class="pulse-container">
-                <div class="pulse-bubble pulse-bubble-1"></div>
-                <div class="pulse-bubble pulse-bubble-2"></div>
-                <div class="pulse-bubble pulse-bubble-3"></div>
+        <div className="spinner-box">
+            <div className="pulse-container">
+                <div className="pulse-bubble pulse-bubble-1"></div>
+                <div className="pulse-bubble pulse-bubble-2"></div>
+                <div className="pulse-bubble pulse-bubble-3"></div>
             </div>
         </div>
     </div>
@@ -155,11 +156,11 @@ export const Data = () => {
                         </div>
                         <div className="info">
                             <p>Unrealized P/L $</p>
-                            <p  style={{ color: checkColor(asset)}}>{Math.round((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) + Number.EPSILON) * 100) / 100} $</p>
+                            <p style={{ color: checkColor(asset) }}>{Math.round((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) + Number.EPSILON) * 100) / 100} $</p>
                         </div>
                         <div className="info">
                             <p>Unrealized P/L %</p>
-                            <p  style={{ color: checkColor(asset)}}>{Math.round((((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) * 100) / asset.totalCost) + Number.EPSILON) * 100) / 100} %</p>
+                            <p style={{ color: checkColor(asset) }}>{Math.round((((((showPrice(asset.coin) - (asset.totalCost / asset.totalQty)) * asset.totalQty) * 100) / asset.totalCost) + Number.EPSILON) * 100) / 100} %</p>
                         </div>
                         <div className="info">
                             <p>Total Cost</p>
@@ -185,15 +186,15 @@ export const Data = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loggedInUser?.assets?.map((asset) =>
+                            {loggedInUser.assets.map((asset) =>
                                 <tr key={asset.id}>
                                     <td>{asset.id}</td>
                                     <td>{asset.symbol}</td>
                                     <td>{Math.round(((asset.totalQty) + Number.EPSILON) * 100) / 100}</td>
                                     <td>{getAvg(asset.coin)} $</td>
                                     <td>{showPrice(asset.coin)} $</td>
-                                    <td style={{ color: checkColor(asset)}}>{makePl(asset)} $</td>
-                                    <td style={{ color: checkColor(asset)}}>{makePlPercent(asset)} %</td>
+                                    <td style={{ color: checkColor(asset) }}>{makePl(asset)} $</td>
+                                    <td style={{ color: checkColor(asset) }}>{makePlPercent(asset)} %</td>
                                     <td>{Math.round(((asset.totalCost) + Number.EPSILON) * 100) / 100} $</td>
                                 </tr>
                             )}

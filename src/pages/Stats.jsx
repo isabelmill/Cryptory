@@ -60,11 +60,11 @@ export function Stats() {
     }
 
     const loadingScreen = <div className="box">
-            <div class="spinner-box">
-                <div class="pulse-container">
-                    <div class="pulse-bubble pulse-bubble-1"></div>
-                    <div class="pulse-bubble pulse-bubble-2"></div>
-                    <div class="pulse-bubble pulse-bubble-3"></div>
+            <div className="spinner-box">
+                <div className="pulse-container">
+                    <div className="pulse-bubble pulse-bubble-1"></div>
+                    <div className="pulse-bubble pulse-bubble-2"></div>
+                    <div className="pulse-bubble pulse-bubble-3"></div>
                 </div>
             </div>
         </div>

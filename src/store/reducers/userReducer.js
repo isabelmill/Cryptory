@@ -12,8 +12,6 @@ export function userReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 loggedInUser: { ...action.user }
-                // loggedInUser: Object.assign({}, action.user, { modalOpen: true })
-
             }
         case 'SET_USERS':
             return {

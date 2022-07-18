@@ -4,24 +4,19 @@ import { loadLoggedInUser, updateUser } from '../store/actions/userActions'
 
 
 export function Home() {
-    // const [user, setUser] = useState()
-
-    useEffect(() => {
-        dispatch(loadLoggedInUser())
-        // eslint-disable-next-line
-        checkPl()
-    }, [])
-
 
     const dispatch = useDispatch()
-    const [profitLoss, setProfitLoss] = useState()
-    const [value, setValue] = useState()
+    const [profitLoss, setProfitLoss] = useState(0)
+    const [value, setValue] = useState(0)
     const [coins, setCoins] = useState(0)
     const copied = useRef(null);
 
     const { loggedInUser } = useSelector(state => state.userModule)
 
-
+    useEffect(() => {
+        checkPl()
+        // eslint-disable-next-line
+    }, [loggedInUser])
 
     const copy = () => {
         const copyText = loggedInUser.wallet
@@ -46,27 +41,34 @@ export function Home() {
     }
 
     const checkPl = () => {
-
         const pl = []
         const total = []
-        loggedInUser?.assets?.forEach((asset) => {
-            const i = (asset.marketPrice - (asset.totalCost / asset.totalQty)) * asset.totalQty
-            pl.push(i)
-            total.push(asset.totalCost)
-        })
+        if (loggedInUser) {
+            console.log('got here');
+            if (loggedInUser.assets[0].marketPrice) {
 
-        const UnrealizedPL = pl.reduce(
-            (previousValue, currentValue) => previousValue + currentValue,
-            0
-        );
-        const totalValue = total.reduce(
-            (previousValue, currentValue) => previousValue + currentValue,
-            0
-        );
-        const value = UnrealizedPL + loggedInUser?.coins + totalValue
-        setProfitLoss(Math.round(((UnrealizedPL) + Number.EPSILON) * 100) / 100)
-        setValue(Math.round(((value) + Number.EPSILON) * 100) / 100)
-        return true
+                loggedInUser.assets.forEach((asset) => {
+                    console.log(asset.marketPrice);
+                    const i = (asset.marketPrice - (asset.totalCost / asset.totalQty)) * asset.totalQty
+                    pl.push(i)
+                    total.push(asset.totalCost)
+                })
+
+
+                const UnrealizedPL = pl.reduce(
+                    (previousValue, currentValue) => previousValue + currentValue,
+                    0
+                );
+                const totalValue = total.reduce(
+                    (previousValue, currentValue) => previousValue + currentValue,
+                    0
+                );
+                const value = UnrealizedPL + loggedInUser?.coins + totalValue
+                setProfitLoss(Math.round(((UnrealizedPL) + Number.EPSILON) * 100) / 100)
+                setValue(Math.round(((value) + Number.EPSILON) * 100) / 100)
+            }
+
+        }
     }
 
 
@@ -90,10 +92,10 @@ export function Home() {
     if (!loggedInUser) return loadingScreen
 
     return (
-        <section onMouseMove={checkPl} onTouchMove={checkPl} className='home'>
+        <section className='home'>
             <div className='home-info'>
                 <div className="header">
-                    <h1>Hello, {loggedInUser?.name}
+                    <h1>Hello, {loggedInUser.name}
                         <img src={require("../assets/imgs/wave.png")} alt="" />
                     </h1>
                     <p>Welcome back to CRYPTORY </p>
@@ -102,7 +104,7 @@ export function Home() {
                             <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40"><path d="M36.958 9.542v20.916q0 1.292-.937 2.23-.938.937-2.229.937H6.208q-1.291 0-2.229-.937-.937-.938-.937-2.23V9.542q0-1.292.937-2.23.938-.937 2.229-.937h27.584q1.291 0 2.229.937.937.938.937 2.23Zm-30.75 4h27.584v-4H6.208Zm0 5.833v11.083h27.584V19.375Zm0 11.083V9.542v20.916Z" /></svg>
                             <div className="data">
                                 <h3>Total Balance</h3>
-                                <p>{Math.round(((loggedInUser?.coins) + Number.EPSILON) * 100) / 100} $</p>
+                                <p>{Math.round(((loggedInUser.coins) + Number.EPSILON) * 100) / 100} $</p>
                             </div>
                         </div>
                         <div className="balance">

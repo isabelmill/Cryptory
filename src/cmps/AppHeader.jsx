@@ -36,7 +36,7 @@ export function AppHeader() {
                 if (location.pathname !== '/login' && location.pathname !== '/signup') {
                     return <section className="app-header">
                         <div className="logo">
-                            <img src={require("../assets/imgs/logo.JPG")} alt="" />
+                            <img src="https://res.cloudinary.com/dw85wdwsw/image/upload/v1657226183/Portfolio/y6x28evphtuphewnqzpc.png" alt="" />
                             <h1>Cryptory</h1>
                         </div>
                         <div className="nav-bar">

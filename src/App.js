@@ -6,8 +6,19 @@ import { Data } from './pages/Data.jsx';
 import { Stats } from './pages/Stats.jsx';
 import { Login } from './pages/Login.jsx';
 import { Signup } from './pages/Signup.jsx';
+import { useEffect} from 'react'
+import { loadLoggedInUser } from './store/actions/userActions'
+import { useDispatch, useSelector } from 'react-redux'
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loadLoggedInUser())
+    // eslint-disable-next-line
+}, [])
+
+
     return (
       <Router>
         <div className="App">
