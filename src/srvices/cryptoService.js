@@ -62,15 +62,13 @@ async function getCoinMarketPrice(coin = 'bitcoin') {
     }
 }
 
-// const API_KEY = '2acd394991b14d9cbf4c3bcf9d4e1355'
-
 async function getCryptoNews(coin = 'bitcoin') {
     const options = {
         method: 'GET',
         url: 'https://free-news.p.rapidapi.com/v1/search',
         params: { q: coin, lang: 'en' },
         headers: {
-            'X-RapidAPI-Key': '4de17d17cfmsha6ed6fe590694dbp1b8813jsn3a2bbe0dd82d',
+            'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
             'X-RapidAPI-Host': 'free-news.p.rapidapi.com'
         }
     };

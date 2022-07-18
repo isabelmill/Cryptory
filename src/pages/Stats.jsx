@@ -21,10 +21,12 @@ export function Stats() {
         // eslint-disable-next-line
     }, [coin])
 
+    console.log(process.env.REACT_RAPID_API_KEY);
+
     const { loggedInUser } = useSelector(state => state.userModule)
     const { data, coinData } = useSelector(state => state.cryptoModule)
     const { users } = useSelector(state => state.userModule)
-
+    
     const dispatch = useDispatch()
 
     const handleChange = ({ value }) => {
